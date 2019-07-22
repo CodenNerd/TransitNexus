@@ -33,12 +33,19 @@ const uploadCV = multer({
 
 const api = Router();
 
+api.post('/test',( req,res)=>{
+    Users.find({"email": "ff"}).exec().then((reslt)=>{
+      res.send(reslt);
+    }).catch(err=>{
+      res.send(err);
+    })
+})
 api.post("/signup", (req, res) => {
   let { firstname, lastname, email, password } = req.body;
 
   // check whether user email already exists
   const id = req.params.id;
-  Users.find({ email: email })
+  Users.find({ "email": email })
     .exec()
     .then(vresult => {
         console.log(vresult);
