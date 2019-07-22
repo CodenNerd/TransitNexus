@@ -7,6 +7,7 @@ import fs from "fs";
 import Users from "../Models/Users";
 import mongoose from "mongoose";
 
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploadedcvs/");
@@ -34,42 +35,48 @@ const uploadCV = multer({
 const api = Router();
 
 api.post('/test',( req,res)=>{
-    Users.find({"email": "ff"}).exec().then((reslt)=>{
-      res.send(reslt);
+    Users.find().exec().then((reslt)=>{
+      res.send({reslt,
+      re: req.body
+    });
     }).catch(err=>{
       res.send(err);
     })
 })
 api.post("/signup", (req, res) => {
-  let { firstname, lastname, email, password } = req.body;
 
   // check whether user email already exists
-  const id = req.params.id;
-  Users.find({ "email": email })
+  
+  Users.find()
     .exec()
     .then(vresult => {
         console.log(vresult);
-      if (vresult == [] || vresult[0] === undefined) {
+      if (vresult.length !== 0) {
         // if not, add user to the collection
+  
         let userdetail = new Users({
           id: new mongoose.Types.ObjectId(),
-          firstname,
-          lastname,
-          email,
-          password
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          email: req.body.email,
+          password: req.body.password,
+          status: "pending",
+          cv: null
         });
         userdetail.save().then(iresult =>{
             console.log(iresult);
-            res.status(200).send({
+            res.status(202).send({
                 message: "User successfully created!",
-                user: iresult
+                user: iresult,
+                ff: req.body
             })
         })
         // users.push(userdetail);
         return res.status(200).send(result);
       } else {
         res.status(400).send({
-          message: "That email already exists on our database!"
+          message: "That email already exists on our database!", 
+          vresult
         });
       }
     })
