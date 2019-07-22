@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+
+    <link rel="stylesheet" type="text/css" href="general.css" />
+    <link rel="stylesheet" href="updatecv.css">
+    <script src="dashboard.js"></script>
+    <script src="https://kit.fontawesome.com/c98b43ede1.js"></script>
+
+</head>
+<body>
+    <section>
+        <div class="sidebar">
+            <h1> <i class="fas fa-truck-pickup"></i>TransitNexus</h1>
+            
+            <div class="options">
+                <ul>
+                    <li> <i class="fas fa-home"></i> Home</li>
+                    <li> <i class="fas fa-edit"></i> Apply for an Opening</li>
+                    <li> <i class="fas fa-car"></i> Seek Driver</li>
+                    <li> <i class="fas fa-address-card"></i> Update CV</li>
+                </ul>
+            </div>
+
+            <div class="copyright">
+                &copy; All Rights Reserved, <strong>TransitNexus</strong> 2019 
+            </div>
+        </div>
+
+       <div class="content">
+           <br><center>
+            <div>
+                <form action="">
+                    <input oninput="showValue()" id="drop-input" type="file" value=""> <br>
+                    <span class="drop-text">Click to Select file or Drag & Drop file here</span>
+                </form>
+            </div>
+        </center>
+       </div>
+    </section>
+<script src="updatecv.js"></script>
+</body>
+</html>

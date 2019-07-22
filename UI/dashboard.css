@@ -1,0 +1,42 @@
+
+div.content{
+    display: inline-block;
+    margin-left: 350px;
+    margin-top: 50px;
+}
+div.history-card{
+    background-color: lightgrey;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px black;
+    margin: 20px;
+    color: dimgray;
+    font-weight: bolder;
+}
+div.history-card:hover{
+    background-color: rgb(192, 192, 192);
+}
+div.history-card ul{
+    list-style-type: none;
+}
+div.history-card ul li{
+    margin: 10px 0px;
+}
+div.history-message{
+    display: inline-block
+}
+div.action-icon{
+    display: inline-block;
+    background-color: darkolivegreen;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    color: white;
+    font-size: 36px;
+    margin-top: -40px;
+}
+div.action-icon i{
+    position: relative;
+    top: 10px;
+    left: 12px;
+}

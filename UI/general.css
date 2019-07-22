@@ -1,0 +1,40 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    background-color: lightgrey;
+    font-family: "Century Gothic", 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 0px;
+}
+section{
+    margin: 0px;
+    padding: 0px;
+    margin-top: -30px;
+}
+.sidebar{
+    display: inline-block;
+    width: 300px;
+    background-color: rgb(0, 50, 63);
+    padding: 50px 50px;
+    color: rgba(255, 255, 255, 0.267);
+    min-height:1000000000px;
+    position: fixed;
+}
+.sidebar h1{
+    font-size: 32px;
+}
+.sidebar ul{
+    margin: 70px 0px;
+    list-style-type: none;
+    margin-left: -30px;
+}
+.sidebar ul li{
+    margin: 30px 0px;
+}
+div.copyright{
+    position: relative;
+    top: 200px;
+}
+div.options{
+    padding-left: 0px;
+}

@@ -1,0 +1,21 @@
+.content>center>div{
+    display: block;
+    margin: 100px auto;
+    width: 50%; 
+    
+}
+.content>center>div form, .content>center>div input{
+    height: 300px;
+    width: 100%;
+    border-radius: 5px;
+    border: 3px dashed dimgrey;
+}
+.content>center>div form input{
+    opacity: 0;
+}
+.content>center>div span.drop-text{
+    display: inline-block;
+    position: relative;
+    top: -50px;
+    z-index: -1;
+}

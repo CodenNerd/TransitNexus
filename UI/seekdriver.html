@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+
+    <link rel="stylesheet" type="text/css" href="general.css" />
+<link rel="stylesheet" href="seekdriver.css">
+    <script src="dashboard.js"></script>
+    <script src="https://kit.fontawesome.com/c98b43ede1.js"></script>
+
+</head>
+<body>
+    <section>
+        <div class="sidebar">
+            <h1> <i class="fas fa-truck-pickup"></i>TransitNexus</h1>
+            
+            <div class="options">
+                <ul>
+                    <li> <i class="fas fa-home"></i> <a href="dashboard.html"> Home </a></li>
+                    <li> <i class="fas fa-edit"></i> <a href="apply.html"> Apply for an Opening</a></li>
+                    <li> <i class="fas fa-car"></i> <a href="seekdriver.html"> Seek Driver </a></li>
+                    <li> <i class="fas fa-address-card"></i> <a href="updatecv.html">... Update CV </a></li>
+                </ul>
+            </div>
+
+            <div class="copyright">
+                &copy; All Rights Reserved, <strong>TransitNexus</strong> 2019 
+            </div>
+        </div>
+
+       <div class="content">
+<br>
+        <div class="form-div">
+            <form action="">
+               <div> <span> Job Title: </span> <input type="text" value="Driver" disabled></div>
+                <div> <span> Job Description:</span><textarea name="job-desc" id="" cols="30" rows="10"></textarea></div>
+                <div>
+                    <span>Job Requirements</span>
+                    <button class="plus-button">+</button>
+                </div>
+               <div> <span> Company Address </span> <textarea name="" id="" cols="30" rows="10" placeholder="Company Address"></textarea></div> 
+               <div> <span>Application Start</span>
+                <input type="date"></div>
+              <div>  <span>Application Deadline</span>
+                <input type="date">
+            </div>
+
+                <button type="submit" class="seek-submit">Submit</button>
+            </form>
+        </div>
+        <!--
+        Job Title: Driver
+        Job Description
+        Job Requirements - + add more
+        Head Office
+        Application Start
+        Application Deadline    -->
+       </div>
+    </section>
+
+</body>
+</html>

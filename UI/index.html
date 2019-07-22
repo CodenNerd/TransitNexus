@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>TransitNexus</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+    
+    <script src="https://kit.fontawesome.com/c98b43ede1.js"></script>
+  </head>
+  <body>
+    <div class="cover-image-div">
+      <br /> 
+    <a href="index.html">
+      <div class="logo"><i>t</i>N</div>
+    </a>
+      <br />
+      <div class="hero hero1">
+        <h1>TransitNexus</h1>
+        <h3>We Link Drivers to Employers</h3>
+        <button class="get-started">Get Started</button><button class="login-button">LogIn</button>
+      </div>
+
+      <div class="hero hero2">
+        <h1></h1>
+        <h3>Log In</h3>
+        <form action="">
+          <div> <i class="fas fa-user user-icon"></i> <input type="text" placeholder="Username/Email"></div>
+          <div> <i class="fas fa-lock lock-icon"></i> <input type="password" placeholder="Password"></div>
+        
+        <button class="login-button2">LogIn</button>
+      </form>
+      </div>
+    </div>
+
+    
+    <div class="register">
+      <div class="icons">
+      <div class="registration-form">
+        
+        <h2>Join TransitNexus Here</h2>
+        <form action="">
+              <label>Name:&nbsp; <input type="text"></label>
+              <label>Email: &nbsp;<input type="email"></label>
+              <label>Choose Password: &nbsp;<input type="password"></label>
+              <label>Password Again:&nbsp; <input type="password"></label>
+              <label>You are :</label>
+              <label class="apply-as"><input type="radio" name="apply-as"> A Job Seeker</label>
+              <label class="apply-as"><input type="radio" name="apply-as"> An Employer</label>
+              <label>Upload CV: &nbsp;<input type="file"></label>
+              <label>Upload Company Details File:&nbsp; <input type="file"></label>
+              <button>Join+</button>
+
+
+        </form>
+      </div>
+    </div>
+    </div>
+
+    <footer>
+      <ul>
+        <li>About Transit Nexus</li>
+        <li>Terms of Service</li>
+        <li>Contact Us</li>
+      </ul>
+
+      <ul>
+        <li> <i class="fab fa-facebook"></i> Facebook</li>
+        <li> <i class="fab fa-twitter"></i> Twitter</li>
+        <li> <i class="fab fa-google"></i> Google</li>
+        <li> <i class="fab fa-instagram"></i> Instagram</li>
+        <li> <i class="fab fa-linkedin"></i> LinkedIn</li>
+      </ul>
+      <div>Designed by Kryptyr - 08179338161</div>
+    </footer>
+
+    <script src="script.js"></script>
+     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+     <script>
+     $(document).ready(function(){
+         $('.get-started').click(function(){
+           $('html, body').animate({
+             scrollTop: $(".registration-form").offset().top
+           }, 2000);
+           })
+       });
+     
+     </script>
+  </body>
+</html>
