@@ -1,10 +1,10 @@
 import { Router, json } from "express";
-//import users from "../Data/users";
 import applications from "../Data/applications";
 import companies from "../Data/companies";
 import multer from "multer";
 import fs from "fs";
 import Users from "../Models/Users";
+import Applications from "../Models/Applications";
 import mongoose from "mongoose";
 
 
@@ -34,24 +34,16 @@ const uploadCV = multer({
 
 const api = Router();
 
-api.post('/test',( req,res)=>{
-    Users.find().exec().then((reslt)=>{
-      res.send({reslt,
-      re: req.body
-    });
-    }).catch(err=>{
-      res.send(err);
-    })
-})
-api.post("/signup", (req, res) => {
 
+api.post("/signup", (req, res) => {
+  
   // check whether user email already exists
   
-  Users.find()
+  Users.find({email: req.body.email})
     .exec()
     .then(vresult => {
         console.log(vresult);
-      if (vresult.length !== 0) {
+      if (vresult.length == 0) {
         // if not, add user to the collection
   
         let userdetail = new Users({
@@ -65,13 +57,12 @@ api.post("/signup", (req, res) => {
         });
         userdetail.save().then(iresult =>{
             console.log(iresult);
-            res.status(202).send({
+            res.status(201).send({
                 message: "User successfully created!",
-                user: iresult,
-                ff: req.body
+                user: iresult
             })
         })
-        // users.push(userdetail);
+  
         return res.status(200).send(result);
       } else {
         res.status(400).send({
@@ -86,13 +77,16 @@ api.post("/signup", (req, res) => {
 api.post("/signin", (req, res) => {
   let { email, password } = req.body;
 
-  users.forEach(x => {
-    if (email == x.email && password == x.password) {
-      return res.status(200).send({ x });
-    }
-  });
+  Users.find({email, password}).exec().then(doc =>{
+    if(doc.length>0){
+      res.status(200).send({f: "found", doc})
+    }  
+    return res.status(404).send({ response: "User not found" });
 
-  return res.status(404).send({ response: "User not found" });
+  }).catch(err=>{
+    res.send(err)
+  })
+
 });
 
 // from employers' perspective
@@ -110,24 +104,42 @@ api.post("/applications", (req, res) => {
   // validate all user input
 
   // ensure application detail does not match 100% with any existing record
-  applications.forEach(x => {
-    if (
-      employer_id == x.employer_id &&
-      job_title == x.job_title &&
-      job_description == x.job_description &&
-      job_requirements == x.job_requirements &&
-      company_address == x.company_address &&
-      application_start == x.application_start &&
-      application_deadline == x.application_deadline
-    ) {
-      return res
+  Applications.find({
+    employer_id,
+    job_title,
+    job_description,
+    job_requirements,
+    company_address,
+    application_start,
+    application_deadline
+  }).exec().then(vresult =>{
+      if(vresult.length>0){
+        return res
         .status(400)
-        .send({ error: "You have already created this job opening", x });
-    }
-  });
+        .send({ error: "You have already created this job opening", vresult});
+      }
+  }).catch(err=>{
+    res.status(500).send(err)
+  })
+
+  // applications.forEach(x => {
+  //   if (
+  //     employer_id == x.employer_id &&
+  //     job_title == x.job_title &&
+  //     job_description == x.job_description &&
+  //     job_requirements == x.job_requirements &&
+  //     company_address == x.company_address &&
+  //     application_start == x.application_start &&
+  //     application_deadline == x.application_deadline
+  //   ) {
+  //     return res
+  //       .status(400)
+  //       .send({ error: "You have already created this job opening", x });
+  //   }
+  // });
   // add a new application
-  let new_application = {
-    id: applications.length + 1,
+  let new_application = new Applications({
+    id: mongoose.Types.ObjectId,
     employer_id,
     job_title,
     job_description,
@@ -136,10 +148,14 @@ api.post("/applications", (req, res) => {
     application_start,
     application_deadline,
     applicant: []
-  };
+  });
 
-  applications.push(new_application);
-  res.status(200).send({ applications, j: req.body });
+  new_application.save().then(iresult =>{
+    res.status(201).send({ response: "Application successfully created", iresult });
+  }).catch(err=>{
+    res.send(err);
+  })
+  
 });
 // view all applicants
 api.get("/applications/:id/applicants", (req, res) => {

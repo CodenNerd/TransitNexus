@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 
 const app = express();
 mongoose.connect('mongodb+srv://AbdulAzeez:transitnexus0987654321@transitnexus-kcfg4.mongodb.net/test?retryWrites=true&w=majority', {
-  useMongoClient: true
+  useNewUrlParser: true
 });
 
 app.use(json());

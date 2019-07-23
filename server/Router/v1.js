@@ -35,6 +35,7 @@ const uploadCV = multer({
 const api = Router();
 
 api.post("/signup", (req, res) => {
+
   let { firstname, lastname, email, password } = req.body;
   let userdetail = {
     firstname,
