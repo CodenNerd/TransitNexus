@@ -97,7 +97,7 @@ api.post("/applications", (req, res) => {
     job_title,
     job_description,
     job_requirements,
-    company_address,
+    company_id,
     application_start,
     application_deadline
   } = req.body;
@@ -109,7 +109,7 @@ api.post("/applications", (req, res) => {
     job_title,
     job_description,
     job_requirements,
-    company_address,
+    company_id,
     application_start,
     application_deadline
   }).exec().then(vresult =>{
@@ -118,43 +118,28 @@ api.post("/applications", (req, res) => {
         .status(400)
         .send({ error: "You have already created this job opening", vresult});
       }
-  }).catch(err=>{
-    res.status(500).send(err)
-  })
-
-  // applications.forEach(x => {
-  //   if (
-  //     employer_id == x.employer_id &&
-  //     job_title == x.job_title &&
-  //     job_description == x.job_description &&
-  //     job_requirements == x.job_requirements &&
-  //     company_address == x.company_address &&
-  //     application_start == x.application_start &&
-  //     application_deadline == x.application_deadline
-  //   ) {
-  //     return res
-  //       .status(400)
-  //       .send({ error: "You have already created this job opening", x });
-  //   }
-  // });
-  // add a new application
-  let new_application = new Applications({
-    id: mongoose.Types.ObjectId,
+      else{
+    let new_application = new Applications({
+    id: mongoose.Types.ObjectId(),
     employer_id,
     job_title,
     job_description,
     job_requirements,
-    company_address,
+    company_id,
     application_start,
     application_deadline,
     applicant: []
   });
 
-  new_application.save().then(iresult =>{
-    res.status(201).send({ response: "Application successfully created", iresult });
+        new_application.save().then(iresult =>{
+          res.status(201).send({ response: "Application successfully created", iresult });
+        }).catch(err=>{
+          res.send({e:"e", err});
+        })
+      }
   }).catch(err=>{
-    res.send({e:"e", err});
-  })
+    res.status(500).send(err)
+  }) 
   
 });
 // view all applicants
