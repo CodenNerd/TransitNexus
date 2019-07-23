@@ -128,7 +128,7 @@ api.post("/applications", (req, res) => {
     company_id,
     application_start,
     application_deadline,
-    applicant: []
+    applicants: []
   });
 
         new_application.save().then(iresult =>{
@@ -144,67 +144,100 @@ api.post("/applications", (req, res) => {
 });
 // view all applicants
 api.get("/applications/:id/applicants", (req, res) => {
-  let application = null;
-  applications.forEach(x => {
-    if (x.id == req.params.id) {
-      application = x;
-      return res.status(200).send({ applicants: application.applicants });
+
+  Applications.findById(req.params.id).exec().then(result =>{
+    if(result.length>0){
+      res.status(200).send({
+        response: "found",
+        result: result[0].applicants
+      })
+    }else{
+         return res.status(404).send({ error: "That application was not found" });
     }
-  });
-  return res.status(400).send({ error: "That application was not found" });
+  }).catch(err =>{
+    res.status(500).send({response: "Sorry our server is currently down"})
+  })
+ 
 });
 // view specific applicant
 api.get("/applications/:appId/applicants/:id", (req, res) => {
-  let applicant = null;
-
-  for (let i = 0; i < applications.length; i++) {
-    if (applications[i].id == req.params.appId) {
-      for (let j = 0; j < applications[i].applicants.length; j++) {
-        if (applications[i].applicants[j].id == req.params.id) {
-          applicant = applications[i].applicants[j];
-          return res.status(200).send({ applicant });
+  Applications.findById(req.params.appId).exec().then(result =>{
+    if(result.length>0){
+      for (let j = 0; j < result[i].applicants.length; j++) {
+        if (result[i].applicants[j].id == req.params.id) {
+          applicant = result[i].applicants[j]; 
+          
+          return res.status(200).send({ response: "Found", applicant });
         }
-      }
+     
     }
-  }
-  return res.status(404).send({ error: "This applicant was not found" });
+    }else{
+         return res.status(404).send({ error: "That application was not found" });
+    }
+  }).catch(err =>{
+    res.status(500).send({response: "Sorry our server is currently down"})
+  })
+
 });
 // accept or reject applicant //put application // new applicant
 api.post("/applications/:appId/applicants", (req, res) => {
-  for (let i = 0; i < applications.length; i++) {
-    if (applications[i].id == req.params.appId) {
-      let applicants = applications[i].applicants;
-      for (let j = 0; j < applicants.length; j++) {
-        if (applicants[j].id == req.body.id) {
-          return res.status(400).send({
-            response: "This applicant has already applied for this"
-          });
+  Applications.findById(req.params.appId).exec().then(result =>{
+    if(result.length>0){
+      for (let j = 0; j < result[i].applicants.length; j++) {
+        if (result[i].applicants[j].id == req.body.id) {
+        let applicants = result[i].applicants; 
+          
+          return res.status(200).send({ response: "Applied Already", applicant: applicants[j] });
         }
-      }
-      const date = new Date();
+        else{
+          const date = new Date();
       let new_applicant = {
         id: req.body.id,
         date_applied: `${date.getDate()}/${date.getMonth()}/${date.getYear()}`,
         status: "pending"
       };
-      applicants.push(new_applicant);
-      return res.status(200).send({
-        response: "The applicant was successfully added",
-        applicants
-      });
+        let applicants = result[i].applicants;
+        applicants[applicants.length+1] = new_applicant;
+        
+        res.status(201).send({ response: "Applied Successfully!", applicants})
+
+
+        }
     }
-  }
-  return res.status(404).send({ error: "This applicant was not found" });
+    }else{
+         return res.status(404).send({ error: "That application was not found" });
+    }
+  }).catch(err =>{
+    res.status(500).send({response: "Sorry our server is currently down"})
+  })
+
 });
 
 // apply for application // put application
 api.put("/applications/:appId/applicant/:id", (req, res) => {
-  let applicant = applications[req.params.appId].applicant[req.params.id];
-  if (!applicant) {
-    return res.status(404).send({ response: "This applicant is not found" });
-  }
+  Applications.findById(req.params.appId).exec().then(result =>{
+    if(result.length>0){
+      for (let j = 0; j < result[i].applicants.length; j++) {
+        if (result[i].applicants[j].id == req.params.id) {
+          applicant = result[i].applicants[j]; 
 
-  applicant.status = req.body.status;
+          applicant.status = req.body.status;
+
+          return res.status(200).send({ response: "Updated", applicant });
+        }else{
+          res.status(404).send({
+            response: "applicant not found"
+          })
+        }
+     
+    }
+    }else{
+         return res.status(404).send({ error: "That application was not found" });
+    }
+  }).catch(err =>{
+    res.status(500).send({response: "Sorry our server is currently down"})
+  })
+
 });
 
 // new company
@@ -240,16 +273,24 @@ api.get("/companies", (req, res) => {
 // from drivers' perspective
 //get all available applications/jobs
 api.get("/applications", (req, res) => {
-  return res.status(200).send(applications);
+  Applications.find().exec().then(result=>{
+    res.status(200).send({result})
+  }).catch(err=>{
+    res.status(500).send({response: "Sorry our server is down"})
+  })
 });
 // get specific application
 api.get("/applications/:id", (req, res) => {
-  for (let i = 0; i < applications.length; i++) {
-    if (applications[i].id == req.params.id) {
-      return res.status(200).send(applications[i]);
-    }
-  }
-  return res.status(404).send({ response: "That application was not found!" });
+  Applications.findById(req.params.id).exec().then(result=>{
+    if(result)
+      res.status(200).send({result})
+    else
+      res.status(404).send({response: "Not found"})
+  }).catch(err=>{
+    res.status(500).send({response: "Sorry our server is down"})
+  })
+
+  
 });
 
 // get cv
