@@ -153,7 +153,7 @@ api.post("/applications", (req, res) => {
   new_application.save().then(iresult =>{
     res.status(201).send({ response: "Application successfully created", iresult });
   }).catch(err=>{
-    res.send(err);
+    res.send({e:"e", err});
   })
   
 });

@@ -6,11 +6,11 @@ const ApplicationsSchema = mongoose.Schema(
     employer_id: String,
     job_title: String,
     job_description: String,
-    job_requirements: Array,
+    job_requirements: [],
     company_id: String,
     application_start: String,
     application_deadline: String,
-    applicants: Array
+    applicants: []
   }
 );
 
